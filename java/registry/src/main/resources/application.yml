@@ -113,6 +113,10 @@ database:
   # If this property not provided, advisor is set to DefaultShardAdvisor
   shardAdvisorClassName: dev.sunbirdrc.registry.sink.shard.DefaultShardAdvisor
 
+  # To enable/disable sharding, If false, shardLabel(example: '1-')
+  # will not be added as prefix to record identifier
+  enableSharding: ${database_enableSharding:false}
+
   connectionInfo:
     - # shardId, shardlabel must be a unique identifier to each connection.
       shardId: shard1
