@@ -17,6 +17,7 @@ import java.util.UUID;
 public abstract class DatabaseProvider {
     private Constants.GraphDatabaseProvider provider;
     private String uuidPropertyName;
+    private String customIdentifierPropertyName;
     private Optional<Boolean> supportsTransaction = Optional.empty();
 
     private static Logger logger = LoggerFactory.getLogger(DatabaseProvider.class);
@@ -166,5 +167,13 @@ public abstract class DatabaseProvider {
 
     protected void setProvider(Constants.GraphDatabaseProvider provider) {
         this.provider = provider;
+    }
+
+    public void setCustomIdentifierPropertyName(String customIdentifierPropertyName) {
+        this.customIdentifierPropertyName = customIdentifierPropertyName;
+    }
+
+    public String getCustomIdentifierPropertyName() {
+        return customIdentifierPropertyName;
     }
 }
