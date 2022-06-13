@@ -116,7 +116,7 @@ database:
   # Instead of uuid, we can enable to use custom property value as a unique record identifier
   # value will be set to below defined property, passed in request body and the same value will
   # be used as record identifier
-  customIdentifierPropertyName: ${database_customIdentifierPropertyName:recordId}
+  customIdentifierPropertyName: ${database_customIdentifierPropertyName:userId}
 
   connectionInfo:
     - # shardId, shardlabel must be a unique identifier to each connection.
