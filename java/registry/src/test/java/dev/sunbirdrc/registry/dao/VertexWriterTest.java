@@ -100,4 +100,18 @@ public class VertexWriterTest {
         String id = vertexWriter.writeNodeEntity(recordNode);
         Assert.assertTrue(id != null);
     }
+
+    @Test
+    public void testCustomRecordId() {
+        String recordStr = "{ \"entityName\": { \"userId\": \"test-user\", \"a\": \"b\", \"cObj\": { \"d\": \"e\" }, \"fArr\": [ \"i1\", \"i2\" ], \"gObjArr\": [ { \"i1\": \"v1\" }, { \"i2\": \"v2\" } ] } }";
+        JsonNode recordNode = null;
+        try {
+            recordNode = new ObjectMapper().readTree(recordStr);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String id = vertexWriter.writeNodeEntity(recordNode);
+        Assert.assertEquals("test-user", id);
+    }
+    
 }
