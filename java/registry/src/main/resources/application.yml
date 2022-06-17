@@ -87,7 +87,7 @@ search:
 # This property is to be used for read request
 read:
   # The read mechanism to use, values could be either NativeReadService or ElasticReadService
-  providerName: dev.sunbirdrc.registry.service.ElasticReadService
+  providerName: dev.sunbirdrc.registry.service.NativeReadService
 
 database:
   # This property is internal and not to be confused with the schema definition.
