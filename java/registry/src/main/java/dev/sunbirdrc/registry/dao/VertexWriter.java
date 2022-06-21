@@ -210,6 +210,10 @@ public class VertexWriter {
 
     private Vertex processNode(String label, JsonNode jsonObject) {
         Vertex vertex = createVertex(label);
+        if(!databaseProvider.getCustomIdPropertyName().isEmpty()) {
+            if (jsonObject.has(databaseProvider.getCustomIdPropertyName()))
+                vertex.property(uuidPropertyName, jsonObject.get(databaseProvider.getCustomIdPropertyName()).textValue());
+        }
         identifyParentOSid(vertex);
 
         jsonObject.fields().forEachRemaining(entry -> {
