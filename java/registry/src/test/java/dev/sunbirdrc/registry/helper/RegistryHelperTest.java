@@ -42,7 +42,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.*;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -321,6 +321,40 @@ public class RegistryHelperTest {
         registryHelper.inviteEntity(inviteJson, "");
         Mockito.verify(registryService).addEntity(shardCapture.capture(), userIdCapture.capture(), inputJsonCapture.capture(), anyBoolean());
         assertEquals("{\"Institute\":{\"email\":\"gecasu.ihises@tovinit.com\",\"instituteName\":\"gecasu\",\"osOwner\":[\"" + testUserId + "\"]}}", inputJsonCapture.getValue().toString());
+    }
+
+    @Test
+    public void enableShardingIsFalse() throws Exception {
+        JsonNode inviteJson = new ObjectMapper().readTree("{\"Institute\":{\"email\":\"gecasu.ihises@tovinit.com\",\"instituteName\":\"gecasu\"}}");
+        mockDefinitionManager();
+        String testUserId = "be6d30e9-7c62-4a05-b4c8-ee28364da8e4";
+        when(keycloakAdminUtil.createUser(any(), any(), any(), any())).thenReturn(testUserId);
+        when(registryService.addEntity(any(), any(), any(), anyBoolean())).thenReturn(UUID.randomUUID().toString());
+        Shard shard = new Shard();
+        shard.setShardLabel("1");
+        when(shardManager.getShard(any())).thenReturn(shard);
+        ReflectionTestUtils.setField(registryHelper, "workflowEnabled", true);
+        ReflectionTestUtils.setField(registryHelper, "enableSharding", false);
+        String id = registryHelper.inviteEntity(inviteJson, "");
+        Mockito.verify(registryService).addEntity(shardCapture.capture(), userIdCapture.capture(), inputJsonCapture.capture(), anyBoolean());
+        assertFalse(id.contains("1-"));
+    }
+
+    @Test
+    public void enableShardingIsTrue() throws Exception {
+        JsonNode inviteJson = new ObjectMapper().readTree("{\"Institute\":{\"email\":\"gecasu.ihises@tovinit.com\",\"instituteName\":\"gecasu\"}}");
+        mockDefinitionManager();
+        String testUserId = "be6d30e9-7c62-4a05-b4c8-ee28364da8e4";
+        when(keycloakAdminUtil.createUser(any(), any(), any(), any())).thenReturn(testUserId);
+        when(registryService.addEntity(any(), any(), any(), anyBoolean())).thenReturn(UUID.randomUUID().toString());
+        Shard shard = new Shard();
+        shard.setShardLabel("1");
+        when(shardManager.getShard(any())).thenReturn(shard);
+        ReflectionTestUtils.setField(registryHelper, "workflowEnabled", true);
+        ReflectionTestUtils.setField(registryHelper, "enableSharding", true);
+        String id = registryHelper.inviteEntity(inviteJson, "");
+        Mockito.verify(registryService).addEntity(shardCapture.capture(), userIdCapture.capture(), inputJsonCapture.capture(), anyBoolean());
+        assertTrue(id.contains("1-"));
     }
 
     @Test
