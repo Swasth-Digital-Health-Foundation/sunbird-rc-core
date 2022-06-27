@@ -130,12 +130,6 @@ public class RegistryHelper {
     @Value("${workflow.enabled:true}")
     private boolean workflowEnabled;
 
-    @Value("${database.enableSharding}")
-    private boolean enableSharding;
-
-    @Value("${database.customIdPropertyName}")
-    private String customIdPropertyName;
-
     @Autowired
     private EntityTypeHandler entityTypeHandler;
 
@@ -227,12 +221,8 @@ public class RegistryHelper {
         try {
             logger.info("Add api: entity type: {} and shard propery: {}", entityType, shardManager.getShardProperty());
             Shard shard = shardManager.getShard(inputJson.get(entityType).get(shardManager.getShardProperty()));
-            if(!customIdPropertyName.isEmpty())
-                shard.getDatabaseProvider().setCustomIdPropertyName(customIdPropertyName);
             watch.start("RegistryController.addToExistingEntity");
             String resultId = registryService.addEntity(shard, userId, inputJson, skipSignature);
-            if (!enableSharding)
-                shard.setShardLabel("");
             recordId = new RecordIdentifier(shard.getShardLabel(), resultId);
             watch.stop("RegistryController.addToExistingEntity");
             logger.info("AddEntity,{}", recordId.toString());
