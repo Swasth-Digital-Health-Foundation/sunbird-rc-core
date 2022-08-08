@@ -90,12 +90,10 @@
                ]
             },
             "signing_cert_path":{
-               "type":"string",
-               "format":"uri"
+               "type":"string"
             },
             "encryption_cert":{
-               "type":"string",
-               "format":"uri"
+               "type":"string"
             },
             "endpoint_url":{
                "type":"string",
