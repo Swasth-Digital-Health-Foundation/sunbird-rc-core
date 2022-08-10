@@ -172,6 +172,7 @@
       "uniqueIndexFields":[
          "participant_code",
          "primary_email"
-      ]
+      ],
+		"deleteRoles": ["anonymous"]   
    }
 }
