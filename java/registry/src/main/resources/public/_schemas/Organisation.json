@@ -173,6 +173,6 @@
          "participant_code",
          "primary_email"
       ],
-		"deleteRoles": ["anonymous"]   
+      "deleteRoles": ["anonymous"]   
    }
 }
