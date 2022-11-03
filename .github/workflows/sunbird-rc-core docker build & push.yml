@@ -42,7 +42,7 @@ jobs:
       - name: Build and push Docker image for hcx-registry
         uses: docker/build-push-action@v3
         with:
-          context: ./
+          context: /sunbird-rc-core
           push: true
           tags: swasth2021/hcx-pipeline-jobs:${{ env.IMAGE_TAG }}
           labels: hcx-registry image
