@@ -44,6 +44,6 @@ jobs:
         with:
           context: ./java/registry
           push: true
-          tags: swasth2021/hcx-pipeline-jobs:${{ env.IMAGE_TAG }}
+          tags: swasth2021/hcx-registry:${{ env.IMAGE_TAG }}
           labels: hcx-registry image
 
