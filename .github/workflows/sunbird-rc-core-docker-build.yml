@@ -3,9 +3,7 @@ name: Build and push Docker image for hcx-registry
 on:
   push:
     branches:
-      - docker-image
-      - main
-      - sprint-*
+      - hcx-enhancements
 
 jobs:
   build:
@@ -29,7 +27,7 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-          
+
       - name: set up env var
         run: echo "IMAGE_TAG=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
@@ -39,8 +37,8 @@ jobs:
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
-          username: swasth2021
-          password: dckr_pat_uO0inNVbSs_V4G_gD39R9gdwkzg
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push Docker image for hcx-registry
         uses: docker/build-push-action@v3
