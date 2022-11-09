@@ -1,4 +1,4 @@
-name: Build and push Docker image for hcx-registry
+name: Build and push docker image for hcx-registry
 
 on:
   push:
