@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - hcx-enhancements
+      - docker-image
 
 jobs:
   build:
@@ -45,6 +46,6 @@ jobs:
         with:
           context: ./java/registry
           push: true
-          tags: swasth2021/hcx-registry:${{ env.IMAGE_TAG }}
+          tags: swasth2021/hcx-registry:${{ env.IMAGE_TAG }}_${{ github.run_number }}
           labels: hcx-registry image
 
