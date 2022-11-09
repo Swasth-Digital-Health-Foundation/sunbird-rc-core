@@ -41,6 +41,7 @@ jobs:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
 
+
       - name: Build and push Docker image for hcx-registry
         uses: docker/build-push-action@v3
         with:
