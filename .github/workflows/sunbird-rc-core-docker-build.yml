@@ -3,7 +3,6 @@ name: Build and push docker image for hcx-registry
 on:
   push:
     branches:
-      - docker-image
       - hcx-enhancements
  
 jobs:
