@@ -169,8 +169,6 @@
             "userId": "/primary_email"
          }
       ],
-      "roles": [ "HIE/HIO.HCX"
-        ],
       "uniqueIndexFields":[
          "participant_code",
          "primary_email"
