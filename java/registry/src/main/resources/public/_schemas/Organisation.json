@@ -92,9 +92,6 @@
             "signing_cert_path":{
                "type":"string"
             },
-            "otp_data":{
-               "type":"string"
-            },
             "encryption_cert":{
                "type":"string"
             },
