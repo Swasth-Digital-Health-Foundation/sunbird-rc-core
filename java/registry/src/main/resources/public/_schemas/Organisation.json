@@ -173,6 +173,12 @@
          "participant_code",
          "primary_email"
       ],
-      "deleteRoles": ["anonymous"]   
+      "deleteRoles": ["anonymous"],
+      "systemFields": [
+        "_osCreatedAt",
+        "_osUpdatedAt",
+        "_osCreatedBy",
+        "_osUpdatedBy"
+        ]
    }
 }
