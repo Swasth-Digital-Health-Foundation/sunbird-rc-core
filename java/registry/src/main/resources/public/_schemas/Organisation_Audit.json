@@ -14,7 +14,7 @@
     "Organisation_Audit": {
       "$id": "#/properties/Organisation_Audit",
       "type": "object",
-      "title": "The Test Schema",
+      "title": "Organisation_Audit",
       "required": [
         "recordId",
         "transactionId",
