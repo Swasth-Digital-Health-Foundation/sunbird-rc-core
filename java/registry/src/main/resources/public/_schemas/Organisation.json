@@ -175,10 +175,8 @@
       ],
       "deleteRoles": ["anonymous"],
       "systemFields": [
-        "_osCreatedAt",
-        "_osUpdatedAt",
-        "_osCreatedBy",
-        "_osUpdatedBy"
+        "osCreatedAt",
+        "osUpdatedAt"
         ]
    }
 }
