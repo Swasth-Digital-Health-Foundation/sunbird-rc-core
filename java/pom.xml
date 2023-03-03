@@ -17,6 +17,7 @@
         <junit.version>4.12</junit.version>
         <neo4j.version>3.2.3</neo4j.version>
         <jacoco.version>0.8.1</jacoco.version>
+        <repository.owner>saurabh-singh-17</repository.owner>
 
         <revision>2.0.3</revision>
 
@@ -27,6 +28,13 @@
 
     </properties>
 
+    <repositories>
+        <repository>
+            <id>github</id>
+            <name>GitHub Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/${repository.owner}}/*</url>
+        </repository>
+    </repositories>
     <modules>
         <module>pojos</module>
         <module>middleware-commons</module>
