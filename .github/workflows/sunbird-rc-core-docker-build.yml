@@ -1,9 +1,7 @@
 name: Build and push docker image for hcx-registry
 
 on:
-  push:
-    branches:
-      - hcx-enhancements
+  workflow_dispatch
  
 jobs:
   build:
