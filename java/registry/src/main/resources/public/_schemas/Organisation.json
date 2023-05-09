@@ -173,7 +173,7 @@
          "participant_code",
          "primary_email"
       ],
-      "deleteRoles": ["anonymous"],
+      "roles": ["admin"],
       "systemFields": [
         "osCreatedAt",
         "osUpdatedAt"
