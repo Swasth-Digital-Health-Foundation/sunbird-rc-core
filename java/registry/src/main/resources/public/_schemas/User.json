@@ -50,25 +50,6 @@
         },
         "linked_user_id":{
           "type":"string"
-        },
-        "organisation_details":{
-            "$ref":"#/definitions/organisation_details"
-        }
-      }
-    },
-    "organisation_details":{
-      "title":"organisation_details",
-      "type":"object",
-      "required":[
-        "organisation_name",
-        "organisation_osid"
-      ],
-      "properties":{
-        "organisation_name":{
-          "type":"string"
-        },
-        "organisation_osid":{
-          "type":"string"
         }
       }
     }
@@ -84,19 +65,6 @@
     "uniqueIndexFields":[
       "email"
     ],
-    "subjectJsonPath":"email",
-    "attestationAttributes": [
-      "organisation_details"
-    ],
-    "attestationPolicies":[
-      {
-        "property": "organisation_details",
-        "paths": [
-          "organisation_details"
-        ],
-        "attestorEntity": "Organisation",
-        "conditions": "(ATTESTOR#$.osid#.contains(REQUESTER#$.organisation_osid#) && ATTESTOR#$.participant_name#.contains(REQUESTER#$.organisation_name#))"
-      }
-    ]
+    "subjectJsonPath":"email"
   }
 }
