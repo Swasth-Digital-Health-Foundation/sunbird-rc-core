@@ -173,7 +173,7 @@
          "participant_code",
          "primary_email"
       ],
-      "roles": ["admin"],
+      "roles": ["user"],
       "systemFields": [
         "osCreatedAt",
         "osUpdatedAt"
