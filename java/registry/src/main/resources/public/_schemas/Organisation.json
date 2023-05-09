@@ -173,7 +173,7 @@
          "participant_code",
          "primary_email"
       ],
-      "roles": ["user"],
+      "roles": ["anonymous"],
       "systemFields": [
         "osCreatedAt",
         "osUpdatedAt"
