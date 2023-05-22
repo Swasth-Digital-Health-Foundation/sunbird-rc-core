@@ -34,10 +34,12 @@
           "type":"string"
         },
         "mobile":{
-          "type":"string"
+          "type":"string",
+          "pattern": "^[0-9]{10}$"
         },
         "email":{
-          "type":"string"
+          "type":"string",
+          "format": "email"
         },
         "linked_user_id":{
           "type":"string"
