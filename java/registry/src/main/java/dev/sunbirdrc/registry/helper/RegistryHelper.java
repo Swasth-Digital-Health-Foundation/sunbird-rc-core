@@ -681,13 +681,13 @@ public class RegistryHelper {
     }
 
     public void authorize(String entityName, String entityId, HttpServletRequest request) throws Exception {
-//        Remove authorization check
-//        String userIdFromRequest = getUserId(request, entityName);
-//        JsonNode response = readEntity(userIdFromRequest, entityName, entityId, false, null, false);
-//        JsonNode entityFromDB = response.get(entityName);
-//        if (!isOwner(entityFromDB, userIdFromRequest)) {
-//            throw new Exception(UNAUTHORIZED_OPERATION_MESSAGE);
-//        }
+        Remove authorization check
+        String userIdFromRequest = getUserId(request, entityName);
+        JsonNode response = readEntity(userIdFromRequest, entityName, entityId, false, null, false);
+        JsonNode entityFromDB = response.get(entityName);
+        if (!isOwner(entityFromDB, userIdFromRequest)) {
+            throw new Exception(UNAUTHORIZED_OPERATION_MESSAGE);
+        }
     }
 
     public String getPropertyIdAfterSavingTheProperty(String entityName, String entityId, JsonNode requestBody, HttpServletRequest request) throws Exception {
