@@ -17,7 +17,7 @@
       "type":"object",
       "title":"User",
       "required":[
-        "user_id",
+        "email",
         "user_name",
         "tenant_roles",
         "created_by"
@@ -65,6 +65,7 @@
       }
     ],
     "uniqueIndexFields":[
+      "user_id",
       "email"
     ],
     "systemFields": [
