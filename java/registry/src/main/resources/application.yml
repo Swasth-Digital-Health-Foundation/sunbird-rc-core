@@ -209,7 +209,7 @@ audit:
 
 keycloak-config:
   organisation:
-    realm: ${test_organisation_realm:swasth-health-claim-exchange}
+    realm: ${keycloak_organisation_realm:swasth-health-claim-exchange}
     client-id: ${keycloak_organisation_client_id:admin-api}
     client-secret: ${keycloak_organisation_client_secret:0e684921-9dbe-4f8f-896a-27e9449a67bc}
   user:
