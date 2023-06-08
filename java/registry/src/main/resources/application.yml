@@ -230,7 +230,7 @@ keycloak-user:
   default-password: ${sunbird_keycloak_user_password:Opensaber@123}
   # add email actions which will be trigger by keycloak
   # email details should be configured in keycloak realm settings
-  emailActions: ${keycloack_user_email_actions:UPDATE_PASSWORD}
+  emailActions: ${keycloack_user_email_actions:}
 claims:
   url: ${claims_url:http://localhost:8081}
 authentication:
