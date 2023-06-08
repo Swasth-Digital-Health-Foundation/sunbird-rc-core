@@ -71,7 +71,7 @@ public class KeycloakAdminUtil {
     }
 
     public String createUser(String entityName, String userName, String email, String mobile, JsonNode realmRoles) throws OwnerCreationException {
-        logger.info("Creating user with mobile_number : " + userName);
+        logger.info("Creating user with : " + userName);
         Keycloak keycloak = getKeycloak(entityName);
         List<String> roles = JSONUtil.convertJsonNodeToList(realmRoles);
         UserRepresentation newUser = createUserRepresentation(entityName, userName, email, mobile);
@@ -94,6 +94,7 @@ public class KeycloakAdminUtil {
         } else if (response.getStatus() == 500) {
             throw new OwnerCreationException("Keycloak user creation error");
         }else {
+            logger.info("--------------response--------------",response.getStatus(), response.getEntity(), response.getMetadata());
             throw new OwnerCreationException("Username already invited / registered");
         }
     }
