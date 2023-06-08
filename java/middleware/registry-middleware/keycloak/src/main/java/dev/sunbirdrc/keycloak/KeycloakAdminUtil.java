@@ -86,16 +86,11 @@ public class KeycloakAdminUtil {
         } else if (response.getStatus() == 500) {
             throw new OwnerCreationException("Keycloak user creation error");
         }else {
-            logger.info("--------------response--------------",response.getStatus(), response.getEntity(), response.getMetadata());
             throw new OwnerCreationException("Username already invited / registered");
         }
     }
 
     private Keycloak getKeycloak(String entityName) {
-        System.out.println("----------------keycloak-------------" + keycloakCache);
-        System.out.println(env.getProperty("keycloak-config." + entityName.toLowerCase() + ".realm") +
-                env.getProperty("keycloak-config." + entityName.toLowerCase() + ".client-id") +
-                env.getProperty("keycloak-config." + entityName.toLowerCase() + ".client-secret"));
         if(keycloakCache.containsKey(entityName)){
             return keycloakCache.get(entityName);
         } else {
