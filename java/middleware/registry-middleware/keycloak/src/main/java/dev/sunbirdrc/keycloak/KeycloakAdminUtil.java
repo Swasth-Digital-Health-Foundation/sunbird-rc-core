@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -29,8 +30,6 @@ public class KeycloakAdminUtil {
     private static final String ENTITY = "entity";
     private static final String MOBILE_NUMBER = "mobile_number";
     private static final String PASSWORD = "password";
-
-
     private String realm;
     private String adminClientSecret;
     private String adminClientId;
@@ -38,7 +37,10 @@ public class KeycloakAdminUtil {
     private String defaultPassword;
     private boolean setDefaultPassword;
     private List<String> emailActions;
-    private final Keycloak keycloak;
+    private Map<String,Keycloak> keycloakCache = new HashMap<>();
+
+    @Autowired
+    private Environment env;
 
     @Autowired
     public KeycloakAdminUtil(
@@ -56,10 +58,9 @@ public class KeycloakAdminUtil {
         this.defaultPassword = defaultPassword;
         this.setDefaultPassword = setDefaultPassword;
         this.emailActions = emailActions;
-        this.keycloak = buildKeycloak();
     }
 
-    private Keycloak buildKeycloak() {
+    private Keycloak buildKeycloak(String realm, String adminClientId, String adminClientSecret) {
         return KeycloakBuilder.builder()
                 .serverUrl(authURL)
                 .realm(realm)
@@ -71,6 +72,7 @@ public class KeycloakAdminUtil {
 
     public String createUser(String entityName, String userName, String email, String mobile, JsonNode realmRoles) throws OwnerCreationException {
         logger.info("Creating user with mobile_number : " + userName);
+        Keycloak keycloak = getKeycloak(entityName);
         List<String> roles = JSONUtil.convertJsonNodeToList(realmRoles);
         UserRepresentation newUser = createUserRepresentation(entityName, userName, email, mobile);
         GroupRepresentation entityGroup = createGroupRepresentation(entityName);
@@ -82,13 +84,13 @@ public class KeycloakAdminUtil {
             logger.info("User ID path" + response.getLocation().getPath());
             String userID = response.getLocation().getPath().replaceAll(".*/([^/]+)$", "$1");
             logger.info("User ID : " + userID);
-            addRolesToUser(roles, userID);
+            addRolesToUser(keycloak, roles, userID);
             if(!emailActions.isEmpty())
                 usersResource.get(userID).executeActionsEmail(emailActions);
             return userID;
         } else if (response.getStatus() == 409) {
             logger.info("UserID: {} exists", userName);
-            return updateExistingUserAttributes(entityName, userName, email, mobile, roles);
+            return updateExistingUserAttributes(keycloak, entityName, userName, email, mobile, roles);
         } else if (response.getStatus() == 500) {
             throw new OwnerCreationException("Keycloak user creation error");
         }else {
@@ -96,7 +98,23 @@ public class KeycloakAdminUtil {
         }
     }
 
-    private void addRolesToUser(List<String> roles, String userID){
+    private Keycloak getKeycloak(String entityName) {
+        System.out.println("----------------keycloak-------------" + keycloakCache);
+        System.out.println(env.getProperty("keycloak-config." + entityName.toLowerCase() + ".realm") +
+                env.getProperty("keycloak-config." + entityName.toLowerCase() + ".client-id") +
+                env.getProperty("keycloak-config." + entityName.toLowerCase() + ".client-secret"));
+        if(keycloakCache.containsKey(entityName)){
+            return keycloakCache.get(entityName);
+        } else {
+            Keycloak obj = buildKeycloak(env.getProperty("keycloak-config." + entityName.toLowerCase() + ".realm"),
+                    env.getProperty("keycloak-config." + entityName.toLowerCase() + ".client-id"),
+                    env.getProperty("keycloak-config." + entityName.toLowerCase() + ".client-secret"));
+            keycloakCache.put(entityName, obj);
+            return obj;
+        }
+    }
+
+    private void addRolesToUser(Keycloak keycloak, List<String> roles, String userID){
         /** Add the 'view-realm' role to client to access the keycloak roles
          * Go to Keycloak -> open client(which is configured as client_id in application.yml) ->
          * Service Account Roles -> Client Roles, select 'realm-management' -> Assign 'view-relam' role
@@ -117,15 +135,15 @@ public class KeycloakAdminUtil {
         return groupRepresentation;
     }
 
-    private String updateExistingUserAttributes(String entityName, String userName, String email, String mobile, List<String> roles) throws OwnerCreationException {
-        Optional<UserResource> userRepresentationOptional = getUserByUsername(userName);
+    private String updateExistingUserAttributes(Keycloak keycloak, String entityName, String userName, String email, String mobile, List<String> roles) throws OwnerCreationException {
+        Optional<UserResource> userRepresentationOptional = getUserByUsername(keycloak, userName);
         if (userRepresentationOptional.isPresent()) {
             UserResource userResource = userRepresentationOptional.get();
             UserRepresentation userRepresentation = userResource.toRepresentation();
             checkIfUserRegisteredForEntity(entityName, userRepresentation);
             updateUserAttributes(entityName, email, mobile, userRepresentation);
             userResource.update(userRepresentation);
-            addRolesToUser(roles, userName);
+            addRolesToUser(keycloak, roles, userName);
             return userRepresentation.getId();
         } else {
             logger.error("Failed fetching user by username: {}", userName);
@@ -171,7 +189,7 @@ public class KeycloakAdminUtil {
         }
     }
 
-    private Optional<UserResource> getUserByUsername(String username) {
+    private Optional<UserResource> getUserByUsername(Keycloak keycloak, String username) {
         List<UserRepresentation> users = keycloak.realm(realm).users().search(username);
         if (users.size() > 0) {
             return Optional.of(keycloak.realm(realm).users().get(users.get(0).getId()));
@@ -179,7 +197,7 @@ public class KeycloakAdminUtil {
         return Optional.empty();
     }
 
-    private void addUserToGroup(String groupName, UserRepresentation user) {
+    private void addUserToGroup(Keycloak keycloak, String groupName, UserRepresentation user) {
         keycloak.realm(realm).groups().groups().stream()
                 .filter(g -> g.getName().equals(groupName)).findFirst()
                 .ifPresent(g -> keycloak.realm(realm).users().get(user.getId()).joinGroup(g.getId()));

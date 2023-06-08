@@ -207,6 +207,16 @@ audit:
     suffix: ${audit_suffix:Audit}
     suffixSeparator: ${audit_suffixSeparator:_}
 
+keycloak-config:
+  organisation:
+    realm: ${test_organisation_realm:swasth-health-claim-exchange}
+    client-id: ${keycloak_organisation_client_id:admin-api}
+    client-secret: ${keycloak_organisation_client_secret:0e684921-9dbe-4f8f-896a-27e9449a67bc}
+  user:
+    realm: ${keycloak_user_realm:swasth-health-claim-exchange}
+    client-id: ${keycloak_user_client_id:admin-api}
+    client-secret: ${keycloak_user_client_secret:0e684921-9dbe-4f8f-896a-27e9449a67bc}
+
 keycloak:
   #publicKey:  ${sunbird_sso_publickey:pk}
   auth-server-url: ${sunbird_sso_url:http://localhost:8080/auth}
