@@ -174,7 +174,6 @@ public class RegistryEntityController extends AbstractController {
             HttpServletRequest request) {
 
         logger.info("Updating entityType {} request body {}", entityName, rootNode);
-    //    Remove authorization check
        if (registryHelper.doesEntityContainOwnershipAttributes(entityName)) {
            try {
                registryHelper.authorize(entityName, entityId, request);
@@ -203,6 +202,7 @@ public class RegistryEntityController extends AbstractController {
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             logger.error("RegistryController: Exception while updating entity (without id)!", e);
             responseParams.setStatus(Response.Status.UNSUCCESSFUL);
             responseParams.setErrmsg(e.getMessage());
