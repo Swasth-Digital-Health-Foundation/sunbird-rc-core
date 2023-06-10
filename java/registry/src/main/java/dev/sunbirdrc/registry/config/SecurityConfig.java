@@ -18,53 +18,53 @@ import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 
-@Configuration
-@EnableWebSecurity
-@ComponentScan(basePackageClasses = KeycloakSecurityComponents.class)
-@ConditionalOnProperty(name = "authentication.enabled",havingValue = "true",matchIfMissing = false)
-public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
-
-    @Value("${authentication.enabled:true}") boolean authenticationEnabled;
-
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-
-        KeycloakAuthenticationProvider keycloakAuthenticationProvider = keycloakAuthenticationProvider();
-        keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(
-                new SimpleAuthorityMapper());
-        auth.authenticationProvider(keycloakAuthenticationProvider);
-    }
-
-    @Bean
-    public KeycloakSpringBootConfigResolver KeycloakConfigResolver() {
-        return new KeycloakSpringBootConfigResolver();
-    }
-
-    @Bean
-    @Override
-    protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
-        return new RegisterSessionAuthenticationStrategy(
-                new SessionRegistryImpl());
-    }
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
-
-        HttpSecurity httpConfig = http.csrf().disable();
-        if (authenticationEnabled) {
-            httpConfig.authorizeRequests()
-                    .antMatchers("/**/invite", "/health", "/error",
-                            "/_schemas/**", "/**/templates/**", "/**/*.json", "/**/verify",
-                            "/swagger-ui", "/**/search", "/**/attestation/**",
-                            "/api/docs/swagger.json","/api/docs/*.json", "/plugin/**")
-                    .permitAll()
-                    .anyRequest()
-                    .authenticated();
-        } else {
-            httpConfig.authorizeRequests()
-                    .anyRequest()
-                    .permitAll();
-        }
-    }
-}
+//@Configuration
+//@EnableWebSecurity
+//@ComponentScan(basePackageClasses = KeycloakSecurityComponents.class)
+//@ConditionalOnProperty(name = "authentication.enabled",havingValue = "true",matchIfMissing = false)
+//public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
+//
+//    @Value("${authentication.enabled:true}") boolean authenticationEnabled;
+//
+//    @Autowired
+//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+//
+//        KeycloakAuthenticationProvider keycloakAuthenticationProvider = keycloakAuthenticationProvider();
+//        keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(
+//                new SimpleAuthorityMapper());
+//        auth.authenticationProvider(keycloakAuthenticationProvider);
+//    }
+//
+//    @Bean
+//    public KeycloakSpringBootConfigResolver KeycloakConfigResolver() {
+//        return new KeycloakSpringBootConfigResolver();
+//    }
+//
+//    @Bean
+//    @Override
+//    protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
+//        return new RegisterSessionAuthenticationStrategy(
+//                new SessionRegistryImpl());
+//    }
+//
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        super.configure(http);
+//
+//        HttpSecurity httpConfig = http.csrf().disable();
+//        if (authenticationEnabled) {
+//            httpConfig.authorizeRequests()
+//                    .antMatchers("/**/invite", "/health", "/error",
+//                            "/_schemas/**", "/**/templates/**", "/**/*.json", "/**/verify",
+//                            "/swagger-ui", "/**/search", "/**/attestation/**",
+//                            "/api/docs/swagger.json","/api/docs/*.json", "/plugin/**")
+//                    .permitAll()
+//                    .anyRequest()
+//                    .authenticated();
+//        } else {
+//            httpConfig.authorizeRequests()
+//                    .anyRequest()
+//                    .permitAll();
+//        }
+//    }
+//}
