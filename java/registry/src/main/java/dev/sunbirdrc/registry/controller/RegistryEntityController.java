@@ -188,7 +188,7 @@ public class RegistryEntityController extends AbstractController {
         newRootNode.set(entityName, rootNode);
 
         try {
-            String userId = getUserId(entityName, request);
+            String userId = "User";
             String tag = "RegistryController.update " + entityName;
             watch.start(tag);
             // TODO: get userID from auth header
