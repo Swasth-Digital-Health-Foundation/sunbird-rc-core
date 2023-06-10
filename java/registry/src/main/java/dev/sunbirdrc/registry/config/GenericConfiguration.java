@@ -82,6 +82,13 @@ public class GenericConfiguration implements WebMvcConfigurer {
 
 	private final String NONE_STR = "none";
 
+	@Bean
+	public ObjectMapper objectMapper() {
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.setSerializationInclusion(Include.NON_NULL);
+		return objectMapper;
+	}
+
 	@Autowired
 	private DefinitionsManager definitionsManager;
 	@Value("${service.connection.timeout}")
@@ -424,13 +431,6 @@ public class GenericConfiguration implements WebMvcConfigurer {
 		} else {
 			return new RegistryServiceImpl();
 		}
-	}
-
-	@Bean
-	public ObjectMapper objectMapper() {
-		ObjectMapper objectMapper = new ObjectMapper();
-		objectMapper.setSerializationInclusion(Include.NON_NULL);
-		return objectMapper;
 	}
 
 //	/** creates elastic-service bean and instanstiates the indices
