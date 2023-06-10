@@ -144,13 +144,6 @@ public class GenericConfiguration implements WebMvcConfigurer {
 	private DBConnectionInfoMgr dbConnectionInfoMgr;
 
 	@Bean
-	public ObjectMapper objectMapper() {
-		ObjectMapper objectMapper = new ObjectMapper();
-		objectMapper.setSerializationInclusion(Include.NON_NULL);
-		return objectMapper;
-	}
-
-	@Bean
 	public SunbirdRCInstrumentation instrumentationStopWatch() {
 		return new SunbirdRCInstrumentation(performanceMonitoringEnabled);
 	}
@@ -431,6 +424,13 @@ public class GenericConfiguration implements WebMvcConfigurer {
 		} else {
 			return new RegistryServiceImpl();
 		}
+	}
+
+	@Bean
+	public ObjectMapper objectMapper() {
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.setSerializationInclusion(Include.NON_NULL);
+		return objectMapper;
 	}
 
 //	/** creates elastic-service bean and instanstiates the indices
