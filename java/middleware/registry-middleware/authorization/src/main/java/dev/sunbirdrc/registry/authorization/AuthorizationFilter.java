@@ -46,42 +46,42 @@ public class AuthorizationFilter implements Middleware {
 	 */
 	@Override
 	public boolean execute(APIMessage apiMessage) throws MiddlewareHaltException {
-//		try {
-//			Map<String, Object> mapObject = apiMessage.getRequestWrapper().getRequestHeaderMap();
-//			Object tokenObject = mapObject.get(Constants.TOKEN_OBJECT);
-//
-//			if (tokenObject == null || tokenObject.toString().trim().isEmpty()) {
-//				throw new MiddlewareHaltException(TOKEN_IS_MISSING);
-//			}
-//			String token = tokenObject.toString();
-//			watch.start("KeycloakServiceImpl.verifyToken");
-//			String userId = keyCloakServiceImpl.verifyToken(token);
-//			watch.stop("KeycloakServiceImpl.verifyToken");
-//
-//			if (!userId.trim().isEmpty()) {
-//				apiMessage.setUserID(userId);
-//				if (mapObject.containsKey("userName")) {
-//					logger.debug("Access token for user {} verified successfully with KeyCloak server !",
-//							mapObject.get("userName"));
-//				} else {
-//					logger.debug("Access token verified successfully with KeyCloak server !");
-//				}
-//				AuthInfo authInfo = extractTokenIntoAuthInfo(token);
-//				if (authInfo.getSub() == null || authInfo.getAud() == null || authInfo.getName() == null) {
-//					throw new MiddlewareHaltException(VERIFICATION_EXCEPTION);
-//				}
-//				List<SimpleGrantedAuthority> authorityList = new ArrayList<>();
-//
-//				authorityList.add(new SimpleGrantedAuthority(authInfo.getAud()));
-//				AuthorizationToken authorizationToken = new AuthorizationToken(authInfo, authorityList);
-//				SecurityContextHolder.getContext().setAuthentication(authorizationToken);
-//			} else {
-//				throw new MiddlewareHaltException(VERIFICATION_EXCEPTION);
-//			}
-//		} catch (Exception e) {
-//			logger.error("AuthorizationFilter: MiddlewareHaltException !", e);
-//			throw new MiddlewareHaltException(VERIFICATION_EXCEPTION);
-//		}
+		try {
+			Map<String, Object> mapObject = apiMessage.getRequestWrapper().getRequestHeaderMap();
+			Object tokenObject = mapObject.get(Constants.TOKEN_OBJECT);
+
+			if (tokenObject == null || tokenObject.toString().trim().isEmpty()) {
+				throw new MiddlewareHaltException(TOKEN_IS_MISSING);
+			}
+			String token = tokenObject.toString();
+			watch.start("KeycloakServiceImpl.verifyToken");
+			String userId = keyCloakServiceImpl.verifyToken(token);
+			watch.stop("KeycloakServiceImpl.verifyToken");
+
+			if (!userId.trim().isEmpty()) {
+				apiMessage.setUserID(userId);
+				if (mapObject.containsKey("userName")) {
+					logger.debug("Access token for user {} verified successfully with KeyCloak server !",
+							mapObject.get("userName"));
+				} else {
+					logger.debug("Access token verified successfully with KeyCloak server !");
+				}
+				AuthInfo authInfo = extractTokenIntoAuthInfo(token);
+				if (authInfo.getSub() == null || authInfo.getAud() == null || authInfo.getName() == null) {
+					throw new MiddlewareHaltException(VERIFICATION_EXCEPTION);
+				}
+				List<SimpleGrantedAuthority> authorityList = new ArrayList<>();
+
+				authorityList.add(new SimpleGrantedAuthority(authInfo.getAud()));
+				AuthorizationToken authorizationToken = new AuthorizationToken(authInfo, authorityList);
+				SecurityContextHolder.getContext().setAuthentication(authorizationToken);
+			} else {
+				throw new MiddlewareHaltException(VERIFICATION_EXCEPTION);
+			}
+		} catch (Exception e) {
+			logger.error("AuthorizationFilter: MiddlewareHaltException !", e);
+			throw new MiddlewareHaltException(VERIFICATION_EXCEPTION);
+		}
 		return true;
 	}
 
