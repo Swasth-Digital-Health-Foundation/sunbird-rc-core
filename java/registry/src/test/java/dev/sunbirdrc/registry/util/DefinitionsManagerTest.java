@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -23,12 +24,12 @@ import static org.mockito.Mockito.when;
 @ActiveProfiles(Constants.TEST_ENVIRONMENT)
 public class DefinitionsManagerTest {
 
+    @Autowired
     private DefinitionsManager definitionsManager;
 
 
     @Before
     public void setup() throws IOException {
-        definitionsManager = new DefinitionsManager();
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, Definition> definitionMap = new HashMap<>();
         String schema = IOUtils.toString(this.getClass().getClassLoader().getResourceAsStream("TrainingCertificate.json"), Charset.defaultCharset());
