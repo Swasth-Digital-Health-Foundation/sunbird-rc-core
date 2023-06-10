@@ -53,7 +53,7 @@ registry:
     createAccess: ${create_attestation_access_entities:User}
 
 workflow:
-  enabled: ${workflow.enable:false}
+  enabled: ${workflow.enable:true}
 
 async:
   enabled: ${async_enabled:false}
