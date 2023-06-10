@@ -33,6 +33,11 @@ public class DefinitionsManager {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    public DefinitionsManager(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
     /**
      * Loads the definitions from the _schemas folder
      */
