@@ -66,19 +66,8 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
         super.configure(http);
 
         HttpSecurity httpConfig = http.csrf().disable();
-        if (authenticationEnabled) {
-            httpConfig.authorizeRequests()
-                    .antMatchers("/**/invite", "/health", "/error",
-                            "/_schemas/**", "/**/templates/**", "/**/*.json", "/**/verify",
-                            "/swagger-ui", "/**/search", "/**/attestation/**",
-                            "/api/docs/swagger.json","/api/docs/*.json", "/plugin/**")
-                    .permitAll()
-                    .anyRequest()
-                    .authenticated();
-        } else {
-            httpConfig.authorizeRequests()
-                    .anyRequest()
-                    .permitAll();
-        }
+        httpConfig.authorizeRequests()
+                .antMatchers("/**")
+                .permitAll();
     }
 }
