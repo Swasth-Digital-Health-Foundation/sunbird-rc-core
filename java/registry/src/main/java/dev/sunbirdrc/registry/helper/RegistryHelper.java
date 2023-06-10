@@ -735,47 +735,47 @@ public class RegistryHelper {
     }
 
     public void authorizeInviteEntity(HttpServletRequest request, String entityName) throws Exception {
-        List<String> inviteRoles = definitionsManager.getDefinition(entityName)
-                .getOsSchemaConfiguration()
-                .getInviteRoles();
-        if (inviteRoles.contains(ROLE_ANONYMOUS)) {
-            return;
-        }
-        Set<String> userRoles = getUserRolesFromRequest(request);
-        authorizeUserRole(userRoles, inviteRoles);
+        // List<String> inviteRoles = definitionsManager.getDefinition(entityName)
+        //         .getOsSchemaConfiguration()
+        //         .getInviteRoles();
+        // if (inviteRoles.contains(ROLE_ANONYMOUS)) {
+        //     return;
+        // }
+        // Set<String> userRoles = getUserRolesFromRequest(request);
+        // authorizeUserRole(userRoles, inviteRoles);
     }
 
     public void authorizeDeleteEntity(HttpServletRequest request, String entityName,String entityId) throws Exception {
-        List<String> deleteRoles = definitionsManager.getDefinition(entityName)
-          .getOsSchemaConfiguration()
-          .getDeleteRoles();
-        if (deleteRoles.contains(ROLE_ANONYMOUS)) {
-            return;
-        }
-        Set<String> userRoles = getUserRolesFromRequest(request);
-        String userIdFromRequest = getUserId(request, entityName);
-        JsonNode response = readEntity(userIdFromRequest, entityName, entityId, false, null, false);
-        JsonNode entityFromDB = response.get(entityName);
-        final boolean hasNoValidRole = !deleteRoles.isEmpty() && deleteRoles.stream().noneMatch(userRoles::contains);
-        final boolean hasInValidOwnership = !isOwner(entityFromDB, userIdFromRequest);
-        if(hasNoValidRole && hasInValidOwnership){
-            throw new UnAuthorizedException(UNAUTHORIZED_OPERATION_MESSAGE);
-        }
+        // List<String> deleteRoles = definitionsManager.getDefinition(entityName)
+        //   .getOsSchemaConfiguration()
+        //   .getDeleteRoles();
+        // if (deleteRoles.contains(ROLE_ANONYMOUS)) {
+        //     return;
+        // }
+        // Set<String> userRoles = getUserRolesFromRequest(request);
+        // String userIdFromRequest = getUserId(request, entityName);
+        // JsonNode response = readEntity(userIdFromRequest, entityName, entityId, false, null, false);
+        // JsonNode entityFromDB = response.get(entityName);
+        // final boolean hasNoValidRole = !deleteRoles.isEmpty() && deleteRoles.stream().noneMatch(userRoles::contains);
+        // final boolean hasInValidOwnership = !isOwner(entityFromDB, userIdFromRequest);
+        // if(hasNoValidRole && hasInValidOwnership){
+        //     throw new UnAuthorizedException(UNAUTHORIZED_OPERATION_MESSAGE);
+        // }
     }
 
     public String authorizeManageEntity(HttpServletRequest request, String entityName) throws Exception {
 
-        List<String> managingRoles = getManageRoles(entityName);
-        if (managingRoles.size() > 0) {
-            if (managingRoles.contains(ROLE_ANONYMOUS)) {
-                return ROLE_ANONYMOUS;
-            }
-            Set<String> userRoles = getUserRolesFromRequest(request);
-            authorizeUserRole(userRoles, managingRoles);
-            return fetchUserIdFromToken(request);
-        } else {
-            return ROLE_ANONYMOUS;
-        }
+        // List<String> managingRoles = getManageRoles(entityName);
+        // if (managingRoles.size() > 0) {
+        //     if (managingRoles.contains(ROLE_ANONYMOUS)) {
+        //         return ROLE_ANONYMOUS;
+        //     }
+        //     Set<String> userRoles = getUserRolesFromRequest(request);
+        //     authorizeUserRole(userRoles, managingRoles);
+        //     return fetchUserIdFromToken(request);
+        // } else {
+        //     return ROLE_ANONYMOUS;
+        // }
     }
 
     private List<String> getManageRoles(String entityName) {
