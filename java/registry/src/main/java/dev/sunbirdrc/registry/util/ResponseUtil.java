@@ -12,8 +12,7 @@ import org.springframework.stereotype.Component;
 public class ResponseUtil {
 
 	private static ObjectMapper objectMapper;
-
-	@Autowired
+	
 	public ResponseUtil(ObjectMapper objectMapper) {
 		ResponseUtil.objectMapper = objectMapper;
 	}
