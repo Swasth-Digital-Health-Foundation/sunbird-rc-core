@@ -21,9 +21,6 @@ import org.springframework.security.web.authentication.session.RegisterSessionAu
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 
 //@Configuration
-//@EnableWebSecurity
-//@ComponentScan(basePackageClasses = KeycloakSecurityComponents.class)
-//@ConditionalOnProperty(name = "authentication.enabled",havingValue = "true",matchIfMissing = false)
 //public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 //
 //    @Value("${authentication.enabled:true}") boolean authenticationEnabled;
