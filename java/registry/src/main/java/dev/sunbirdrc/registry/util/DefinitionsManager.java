@@ -29,8 +29,7 @@ public class DefinitionsManager {
 
     @Autowired
     private ResourceLoader resourceLoader;
-
-    @Autowired
+    
     private ObjectMapper objectMapper;
 
     @Autowired
