@@ -764,18 +764,17 @@ public class RegistryHelper {
     }
 
     public String authorizeManageEntity(HttpServletRequest request, String entityName) throws Exception {
-
-        // List<String> managingRoles = getManageRoles(entityName);
-        // if (managingRoles.size() > 0) {
-        //     if (managingRoles.contains(ROLE_ANONYMOUS)) {
-        //         return ROLE_ANONYMOUS;
-        //     }
-        //     Set<String> userRoles = getUserRolesFromRequest(request);
-        //     authorizeUserRole(userRoles, managingRoles);
-        //     return fetchUserIdFromToken(request);
-        // } else {
-        //     return ROLE_ANONYMOUS;
-        // }
+        List<String> managingRoles = getManageRoles(entityName);
+        if (managingRoles.size() > 0) {
+            if (managingRoles.contains(ROLE_ANONYMOUS)) {
+                return ROLE_ANONYMOUS;
+            }
+            Set<String> userRoles = getUserRolesFromRequest(request);
+            authorizeUserRole(userRoles, managingRoles);
+            return fetchUserIdFromToken(request);
+        } else {
+            return ROLE_ANONYMOUS;
+        }
     }
 
     private List<String> getManageRoles(String entityName) {
