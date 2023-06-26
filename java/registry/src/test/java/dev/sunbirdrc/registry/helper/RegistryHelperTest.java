@@ -61,7 +61,7 @@ public class RegistryHelperTest {
 
     @InjectMocks
     private RegistryHelper registryHelper;
-
+    @Autowired
     private ObjectMapper objectMapper;
 
     @Mock
@@ -85,6 +85,7 @@ public class RegistryHelperTest {
     @Mock
     private DecryptionHelper decryptionHelper;
 
+    @Autowired
     private DefinitionsManager definitionsManager;
 
 
@@ -340,7 +341,6 @@ public class RegistryHelperTest {
     }
 
     private void mockDefinitionManager() throws IOException {
-        definitionsManager = new DefinitionsManager();
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, Definition> definitionMap = new HashMap<>();
         String studentSchema = IOUtils.toString(this.getClass().getClassLoader().getResourceAsStream("Student.json"), Charset.defaultCharset());
@@ -428,7 +428,6 @@ public class RegistryHelperTest {
         AttestationPolicy attestationPolicy2 = new AttestationPolicy();
         attestationPolicy2.setName("attestationSomething");
         when(dbConnectionInfoMgr.getUuidPropertyName()).thenReturn("osid");
-        definitionsManager = new DefinitionsManager();
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, Definition> definitionMap = new HashMap<>();
         String studentSchema = IOUtils.toString(this.getClass().getClassLoader().getResourceAsStream("Student.json"), Charset.defaultCharset());

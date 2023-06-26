@@ -174,14 +174,13 @@ public class RegistryEntityController extends AbstractController {
             HttpServletRequest request) {
 
         logger.info("Updating entityType {} request body {}", entityName, rootNode);
-//        Remove authorization check
-//        if (registryHelper.doesEntityContainOwnershipAttributes(entityName)) {
-//            try {
-//                registryHelper.authorize(entityName, entityId, request);
-//            } catch (Exception e) {
-//                return createUnauthorizedExceptionResponse(e);
-//            }
-//        }
+       if (registryHelper.doesEntityContainOwnershipAttributes(entityName)) {
+           try {
+               registryHelper.authorize(entityName, entityId, request);
+           } catch (Exception e) {
+               return createUnauthorizedExceptionResponse(e);
+           }
+       }
         ResponseParams responseParams = new ResponseParams();
         Response response = new Response(Response.API_ID.UPDATE, "OK", responseParams);
         ((ObjectNode) rootNode).put(uuidPropertyName, entityId);
@@ -189,7 +188,7 @@ public class RegistryEntityController extends AbstractController {
         newRootNode.set(entityName, rootNode);
 
         try {
-            String userId = getUserId(entityName, request);
+            String userId = "User";
             String tag = "RegistryController.update " + entityName;
             watch.start(tag);
             // TODO: get userID from auth header
@@ -203,6 +202,7 @@ public class RegistryEntityController extends AbstractController {
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             logger.error("RegistryController: Exception while updating entity (without id)!", e);
             responseParams.setStatus(Response.Status.UNSUCCESSFUL);
             responseParams.setErrmsg(e.getMessage());

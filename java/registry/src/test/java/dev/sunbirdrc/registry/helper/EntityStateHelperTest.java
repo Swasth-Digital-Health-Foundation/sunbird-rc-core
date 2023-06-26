@@ -59,17 +59,18 @@ public class EntityStateHelperTest {
     @Mock
     KeycloakAdminUtil keycloakAdminUtil;
 
+    @Autowired
     DefinitionsManager definitionsManager;
 
     @Autowired
     KieContainer kieContainer;
 
+    @Autowired
     ObjectMapper m = new ObjectMapper();
 
     @Before
     public void initMocks() throws IOException {
         MockitoAnnotations.initMocks(this);
-        definitionsManager = new DefinitionsManager();
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, Definition> definitionMap = new HashMap<>();
         String studentSchema = IOUtils.toString(this.getClass().getClassLoader().getResourceAsStream("Student.json"), Charset.defaultCharset());

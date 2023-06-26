@@ -17,6 +17,7 @@
       "type":"object",
       "title":"User",
       "required":[
+        "user_id",
         "email",
         "user_name",
         "tenant_roles",
@@ -71,7 +72,10 @@
     "systemFields": [
       "osCreatedAt",
       "osUpdatedAt"
-    ]
+    ],
+    "deleteRoles": ["anonymous"],
+    "inviteRoles": ["anonymous"],
+    "roles": ["anonymous"]
   }
 
 }

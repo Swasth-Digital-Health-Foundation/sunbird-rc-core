@@ -27,12 +27,10 @@ public class DefinitionsManager {
 
     private OSResourceLoader osResourceLoader;
 
+    private ObjectMapper mapper = new ObjectMapper();
+
     @Autowired
     private ResourceLoader resourceLoader;
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
     /**
      * Loads the definitions from the _schemas folder
      */
@@ -62,7 +60,6 @@ public class DefinitionsManager {
     }
 
     private void loadResourcesFromPath(String resourceLocation) throws Exception {
-        final ObjectMapper mapper = new ObjectMapper();
         osResourceLoader = new OSResourceLoader(resourceLoader);
         osResourceLoader.loadResource(resourceLocation);
 
@@ -177,7 +174,7 @@ public class DefinitionsManager {
     public void appendNewDefinition(JsonNode jsonNode) {
         try {
             String schemaAsText = jsonNode.asText("{}");
-            JsonNode schemaJsonNode = objectMapper.readTree(schemaAsText);
+            JsonNode schemaJsonNode = mapper.readTree(schemaAsText);
             Definition definition = new Definition(schemaJsonNode);
             logger.info("loading resource:" + definition.getTitle() + " with private field size:"
                     + definition.getOsSchemaConfiguration().getPrivateFields().size() + " & signed fields size:"
@@ -191,7 +188,7 @@ public class DefinitionsManager {
     public void removeDefinition(JsonNode jsonNode) {
         try {
             String schemaAsText = jsonNode.asText("{}");
-            JsonNode schemaJsonNode = objectMapper.readTree(schemaAsText);
+            JsonNode schemaJsonNode = mapper.readTree(schemaAsText);
             String schemaTitle = schemaJsonNode.get(TITLE).asText();
             definitionMap.remove(schemaTitle);
         } catch (Exception e) {
