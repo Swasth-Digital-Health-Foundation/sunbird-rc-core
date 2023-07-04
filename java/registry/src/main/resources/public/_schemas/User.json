@@ -68,6 +68,8 @@
       "user_id",
       "email"
     ],
+    "inviteRoles": ["anonymous"],
+    "deleteRoles": ["anonymous"],
     "systemFields": [
       "osCreatedAt",
       "osUpdatedAt"
