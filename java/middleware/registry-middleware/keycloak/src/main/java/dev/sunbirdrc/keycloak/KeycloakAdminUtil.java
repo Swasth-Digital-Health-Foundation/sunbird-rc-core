@@ -1,14 +1,13 @@
 package dev.sunbirdrc.keycloak;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import dev.sunbirdrc.registry.middleware.util.JSONUtil;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import dev.sunbirdrc.registry.middleware.util.JSONUtil;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
-import org.keycloak.admin.client.resource.*;
+import org.keycloak.admin.client.resource.UserResource;
+import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.GroupRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
@@ -21,8 +20,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
 import javax.ws.rs.core.Response;
+import java.util.*;
 
 
 @Component
@@ -64,7 +63,7 @@ public class KeycloakAdminUtil {
                 .build();
     }
 
-    public String createUser(String entityName, String userName, String email, String mobile, JsonNode realmRoles) throws OwnerCreationException, JsonProcessingException {
+    public String createUser(String entityName, String userName, String email, String mobile, JsonNode realmRoles) throws OwnerCreationException {
         logger.info("Creating user with : " + userName);
         Keycloak keycloak = getKeycloak(entityName);
         String realm = env.getProperty("keycloak-config." + entityName.toLowerCase() + ".realm");
