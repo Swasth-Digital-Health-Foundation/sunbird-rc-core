@@ -68,7 +68,16 @@ public class KeycloakAdminUtil {
         List<String> roles = JSONUtil.convertJsonNodeToList(realmRoles);
         UserRepresentation newUser = createUserRepresentation(entityName, userName, email, mobile);
         GroupRepresentation entityGroup = createGroupRepresentation(entityName);
-        keycloak.realm(realm).groups().add(entityGroup);
+        // Get the groups resource
+        GroupsResource groupsResource = keycloak.realm(realm).groups();
+        GroupResource groupResource = groupsResource.group(entityName);
+        GroupRepresentation groupRepresentation = groupResource.toRepresentation();
+        if (groupRepresentation != null) {
+            logger.info("Keycloak Group {} exists.", entityName);
+        } else {
+            keycloak.realm(realm).groups().add(entityGroup);
+            logger.info("keycloak Group {} created " + entityName);
+        }
         UsersResource usersResource = keycloak.realm(realm).users();
         Response response = usersResource.create(newUser);
         if (response.getStatus() == 201) {
@@ -85,7 +94,7 @@ public class KeycloakAdminUtil {
             return updateExistingUserAttributes(keycloak, realm, entityName, userName, email, mobile, roles);
         } else if (response.getStatus() == 500) {
             throw new OwnerCreationException("Keycloak user creation error");
-        }else {
+        } else {
             throw new OwnerCreationException("Username already invited / registered");
         }
     }
