@@ -2,6 +2,7 @@ package dev.sunbirdrc.keycloak;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import dev.sunbirdrc.registry.middleware.util.JSONUtil;
+
 import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
@@ -68,11 +69,15 @@ public class KeycloakAdminUtil {
         List<String> roles = JSONUtil.convertJsonNodeToList(realmRoles);
         UserRepresentation newUser = createUserRepresentation(entityName, userName, email, mobile);
         GroupRepresentation entityGroup = createGroupRepresentation(entityName);
+        logger.info("group representation " +  entityGroup);
+        logger.info("group count ", keycloak.realm(realm).groups().count(entityName));
         // Get the groups resource
-        GroupsResource groupsResource = keycloak.realm(realm).groups();
-        GroupResource groupResource = groupsResource.group(entityName);
-        GroupRepresentation groupRepresentation = groupResource.toRepresentation();
-        if (groupRepresentation != null) {
+        List<GroupRepresentation> groupsResource = keycloak.realm(realm).groups().groups();
+        logger.info("Groups List ", groupsResource.toString());
+        logger.info("group exist ", groupsResource.contains(entityGroup));
+        // GroupResource groupResource = groupsResource. .group(entityName);
+        // GroupRepresentation groupRepresentation = groupResource.;
+        if (groupsResource.contains(entityGroup)) {
             logger.info("Keycloak Group {} exists.", entityName);
         } else {
             keycloak.realm(realm).groups().add(entityGroup);
