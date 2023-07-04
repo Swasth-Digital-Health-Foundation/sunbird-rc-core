@@ -1,6 +1,8 @@
 package dev.sunbirdrc.keycloak;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.sunbirdrc.registry.middleware.util.JSONUtil;
 
 import org.keycloak.OAuth2Constants;
@@ -62,22 +64,25 @@ public class KeycloakAdminUtil {
                 .build();
     }
 
-    public String createUser(String entityName, String userName, String email, String mobile, JsonNode realmRoles) throws OwnerCreationException {
+    public String createUser(String entityName, String userName, String email, String mobile, JsonNode realmRoles) throws OwnerCreationException, JsonProcessingException {
         logger.info("Creating user with : " + userName);
         Keycloak keycloak = getKeycloak(entityName);
         String realm = env.getProperty("keycloak-config." + entityName.toLowerCase() + ".realm");
         List<String> roles = JSONUtil.convertJsonNodeToList(realmRoles);
         UserRepresentation newUser = createUserRepresentation(entityName, userName, email, mobile);
         GroupRepresentation entityGroup = createGroupRepresentation(entityName);
-        logger.info("group representation " +  entityGroup);
-        logger.info("group count ", keycloak.realm(realm).groups().count(entityName));
+        System.out.println("group representation " + new ObjectMapper().writeValueAsString(entityGroup));
+        System.out.println("group count " + keycloak.realm(realm).groups().count(entityName));
         // Get the groups resource
         List<GroupRepresentation> groupsResource = keycloak.realm(realm).groups().groups();
-        logger.info("Groups List ", groupsResource.toString());
-        logger.info("group exist ", groupsResource.contains(entityGroup));
+        System.out.println("Groups List " + new ObjectMapper().writeValueAsString(groupsResource));
+        System.out.println("group exist " + groupsResource.contains(entityGroup));
         // GroupResource groupResource = groupsResource. .group(entityName);
         // GroupRepresentation groupRepresentation = groupResource.;
-        if (groupsResource.contains(entityGroup)) {
+        boolean groupExists = groupsResource.stream()
+                .anyMatch(group -> group.getName().equals(entityName));
+        System.out.println("group " + groupExists);        
+        if (groupExists) {
             logger.info("Keycloak Group {} exists.", entityName);
         } else {
             keycloak.realm(realm).groups().add(entityGroup);
