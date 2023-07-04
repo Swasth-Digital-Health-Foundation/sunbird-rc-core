@@ -70,21 +70,12 @@ public class KeycloakAdminUtil {
         String realm = env.getProperty("keycloak-config." + entityName.toLowerCase() + ".realm");
         List<String> roles = JSONUtil.convertJsonNodeToList(realmRoles);
         UserRepresentation newUser = createUserRepresentation(entityName, userName, email, mobile);
-        GroupRepresentation entityGroup = createGroupRepresentation(entityName);
-        System.out.println("group representation " + new ObjectMapper().writeValueAsString(entityGroup));
-        System.out.println("group count " + keycloak.realm(realm).groups().count(entityName));
-        // Get the groups resource
         List<GroupRepresentation> groupsResource = keycloak.realm(realm).groups().groups();
-        System.out.println("Groups List " + new ObjectMapper().writeValueAsString(groupsResource));
-        System.out.println("group exist " + groupsResource.contains(entityGroup));
-        // GroupResource groupResource = groupsResource. .group(entityName);
-        // GroupRepresentation groupRepresentation = groupResource.;
-        boolean groupExists = groupsResource.stream()
-                .anyMatch(group -> group.getName().equals(entityName));
-        System.out.println("group " + groupExists);        
+        boolean groupExists = groupsResource.stream().anyMatch(group -> group.getName().equals(entityName));
         if (groupExists) {
             logger.info("Keycloak Group {} exists.", entityName);
         } else {
+            GroupRepresentation entityGroup = createGroupRepresentation(entityName);
             keycloak.realm(realm).groups().add(entityGroup);
             logger.info("keycloak Group {} created " + entityName);
         }
