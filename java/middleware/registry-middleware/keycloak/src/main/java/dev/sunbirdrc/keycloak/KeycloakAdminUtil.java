@@ -1,11 +1,13 @@
 package dev.sunbirdrc.keycloak;
 
+
 import com.fasterxml.jackson.databind.JsonNode;
 import dev.sunbirdrc.registry.middleware.util.JSONUtil;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
-import org.keycloak.admin.client.resource.*;
+import org.keycloak.admin.client.resource.UserResource;
+import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.GroupRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
@@ -18,8 +20,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
 import javax.ws.rs.core.Response;
+import java.util.*;
 
 
 @Component
@@ -67,8 +69,15 @@ public class KeycloakAdminUtil {
         String realm = env.getProperty("keycloak-config." + entityName.toLowerCase() + ".realm");
         List<String> roles = JSONUtil.convertJsonNodeToList(realmRoles);
         UserRepresentation newUser = createUserRepresentation(entityName, userName, email, mobile);
-        GroupRepresentation entityGroup = createGroupRepresentation(entityName);
-        keycloak.realm(realm).groups().add(entityGroup);
+        List<GroupRepresentation> groupsResource = keycloak.realm(realm).groups().groups();
+        boolean groupExists = groupsResource.stream().anyMatch(group -> group.getName().equals(entityName));
+        if (groupExists) {
+            logger.info("Keycloak Group {} exists.", entityName);
+        } else {
+            GroupRepresentation entityGroup = createGroupRepresentation(entityName);
+            keycloak.realm(realm).groups().add(entityGroup);
+            logger.info("keycloak Group {} created " + entityName);
+        }
         UsersResource usersResource = keycloak.realm(realm).users();
         Response response = usersResource.create(newUser);
         if (response.getStatus() == 201) {
@@ -85,7 +94,7 @@ public class KeycloakAdminUtil {
             return updateExistingUserAttributes(keycloak, realm, entityName, userName, email, mobile, roles);
         } else if (response.getStatus() == 500) {
             throw new OwnerCreationException("Keycloak user creation error");
-        }else {
+        } else {
             throw new OwnerCreationException("Username already invited / registered");
         }
     }
