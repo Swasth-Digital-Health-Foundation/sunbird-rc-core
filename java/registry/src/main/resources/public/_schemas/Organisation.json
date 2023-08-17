@@ -166,12 +166,11 @@
          {
             "email": "/primary_email",
             "mobile": "/primary_mobile",
-            "userId": "/primary_email"
+            "userId": "/participant_code"
          }
       ],
       "uniqueIndexFields":[
          "participant_code",
-         "primary_email"
       ],
       "deleteRoles": ["anonymous"],
       "inviteRoles": ["anonymous"],
