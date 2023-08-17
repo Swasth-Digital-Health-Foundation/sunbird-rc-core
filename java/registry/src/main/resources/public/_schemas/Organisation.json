@@ -170,7 +170,7 @@
          }
       ],
       "uniqueIndexFields":[
-         "participant_code",
+         "participant_code"
       ],
       "deleteRoles": ["anonymous"],
       "inviteRoles": ["anonymous"],
