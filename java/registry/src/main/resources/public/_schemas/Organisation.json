@@ -73,12 +73,6 @@
             "primary_mobile":{
                "type":"string"
             },
-            "masked_primary_email": {
-               "type": "string"
-            },
-            "masked_primary_mobile": {
-               "type": "string"
-            },
             "additional_mobile":{
                "type":"array",
                "items":{

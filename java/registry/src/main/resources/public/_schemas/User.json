@@ -41,12 +41,6 @@
           "type":"string",
           "format": "email"
         },
-        "masked_email": {
-          "type": "string"
-        },
-        "masked_mobile": {
-          "type": "string"
-        },
         "linked_user_id":{
           "type":"string"
         },
