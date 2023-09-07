@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "properties": {
+    "Beneficiary": {
+      "$ref": "#/definitions/Beneficiary"
+    }
+  },
+  "required": [
+    "Beneficiary"
+  ],
+  "title": "Beneficiary",
+  "definitions": {
+    "Beneficiary": {
+      "$id": "#/definitions/Beneficiary",
+      "type": "object",
+      "title": "The Beneficiary Schema",
+      "required": [
+        "mobile"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "mobile": {
+          "type": "string",
+          "pattern": "^[0-9]{10}$"
+        },
+        "insurance_id": {
+          "type": "string"
+        },
+        "payers": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "_osConfig": {
+    "ownershipAttributes": [
+      {
+        "email": "/mobile",
+        "mobile": "/mobile",
+        "userId": "/mobile"
+      }
+    ],
+    "uniqueIndexFields": [
+      "mobile"
+    ],
+    "deleteRoles": [
+      "anonymous"
+    ],
+    "systemFields": [
+      "osCreatedAt",
+      "osUpdatedAt"
+    ]
+  }
+}
