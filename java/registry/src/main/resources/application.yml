@@ -217,7 +217,7 @@ keycloak-config:
     client-id: ${keycloak_user_client_id:admin-api}
     client-secret: ${keycloak_user_client_secret:0e684921-9dbe-4f8f-896a-27e9449a67bc}
   beneficiary:
-    realm: ${keycloak_beneficiary_realm:Beneficiary}
+    realm: ${keycloak_beneficiary_realm:beneficiary}
     client-id: ${keycloak_beneficiary_client_id:admin-api}
     client-secret: ${keycloak_beneficiary_client_secret:0e684921-9dbe-4f8f-896a-27e9449a67bc}
 
