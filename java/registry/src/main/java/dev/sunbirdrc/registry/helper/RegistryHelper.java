@@ -180,8 +180,11 @@ public class RegistryHelper {
 
     private String addEntityHandler(JsonNode inputJson, String userId, boolean isInvite) throws Exception {
         String entityType = inputJson.fields().next().getKey();
+        System.out.println("----------entity type ---------" + entityType);
         validationService.validate(entityType, objectMapper.writeValueAsString(inputJson), isInvite);
         String entityName = inputJson.fields().next().getKey();
+        System.out.println("input json ------------------" + objectMapper.writeValueAsString(inputJson));
+        System.out.println("entity name in the registry helper --------" + entityName);
         if (workflowEnabled) {
             List<AttestationPolicy> attestationPolicies = getAttestationPolicies(entityName);
             entityStateHelper.applyWorkflowTransitions(JSONUtil.convertStringJsonNode("{}"), inputJson, attestationPolicies);
@@ -194,6 +197,7 @@ public class RegistryHelper {
             }
             jsonNode.add(userId);
         }
+        System.out.println("-------------it executing add entity handler -------------");
         return addEntity(inputJson, userId, entityType, isInvite);
     }
 
