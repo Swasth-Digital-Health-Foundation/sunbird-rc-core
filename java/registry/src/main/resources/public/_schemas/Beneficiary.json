@@ -22,13 +22,13 @@
         "name": {
           "type": "string"
         },
-        "email": {
-          "type": "string",
-          "format": "email"
-        },
         "mobile": {
           "type": "string",
           "pattern": "^[0-9]{10}$"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
         },
         "insurance_id": {
           "type": "string"
@@ -50,12 +50,15 @@
     "uniqueIndexFields": [
       "mobile"
     ],
-    "deleteRoles": [
-      "anonymous"
-    ],
     "systemFields": [
       "osCreatedAt",
       "osUpdatedAt"
+    ],
+    "deleteRoles": [
+      "anonymous"
+    ],
+    "inviteRoles": [
+      "anonymous"
     ]
   }
 }
