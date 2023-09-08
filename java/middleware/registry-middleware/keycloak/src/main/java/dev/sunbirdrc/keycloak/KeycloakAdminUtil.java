@@ -65,6 +65,8 @@ public class KeycloakAdminUtil {
 
     public String createUser(String entityName, String userName, String email, String mobile, JsonNode realmRoles) throws OwnerCreationException {
         logger.info("Creating user with : " + userName);
+        System.out.println("creating user with--------- " + userName);
+        System.out.println("realm roles ==========" + realmRoles);
         Keycloak keycloak = getKeycloak(entityName);
         String realm = env.getProperty("keycloak-config." + entityName.toLowerCase() + ".realm");
         System.out.println("realm name will be -------" + realm);
@@ -105,6 +107,9 @@ public class KeycloakAdminUtil {
         if(keycloakCache.containsKey(entityName)){
             return keycloakCache.get(entityName);
         } else {
+            System.out.println("keycloak realm name---------- " + env.getProperty("keycloak-config." + entityName.toLowerCase() + ".realm"));
+            System.out.println("keyclaoak client id ----------" + env.getProperty("keycloak-config." + entityName.toLowerCase() + ".client-id"));
+            System.out.println("keycloak client secret --------- " + env.getProperty("keycloak-config." + entityName.toLowerCase() + ".client-secret"));
             Keycloak obj = buildKeycloak(env.getProperty("keycloak-config." + entityName.toLowerCase() + ".realm"),
                     env.getProperty("keycloak-config." + entityName.toLowerCase() + ".client-id"),
                     env.getProperty("keycloak-config." + entityName.toLowerCase() + ".client-secret"));
