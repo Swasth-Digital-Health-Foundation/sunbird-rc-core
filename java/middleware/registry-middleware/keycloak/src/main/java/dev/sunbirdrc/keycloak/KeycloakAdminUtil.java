@@ -71,7 +71,6 @@ public class KeycloakAdminUtil {
         System.out.println("entity name ----------"  + entityName);
         List<String> roles = JSONUtil.convertJsonNodeToList(realmRoles);
         UserRepresentation newUser = createUserRepresentation(entityName, userName, email, mobile);
-        System.out.println("new user -----" + newUser.getId());
         List<GroupRepresentation> groupsResource = keycloak.realm(realm).groups().groups();
         boolean groupExists = groupsResource.stream().anyMatch(group -> group.getName().equals(entityName));
         if (groupExists) {
