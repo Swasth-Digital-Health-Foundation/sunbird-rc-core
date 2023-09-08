@@ -44,7 +44,7 @@
       {
         "email": "/email",
         "mobile": "/mobile",
-        "userId": "/mobile"
+        "userId": "/email"
       }
     ],
     "uniqueIndexFields": [
