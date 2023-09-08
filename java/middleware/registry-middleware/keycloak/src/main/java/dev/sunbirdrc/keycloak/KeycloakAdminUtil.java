@@ -71,6 +71,7 @@ public class KeycloakAdminUtil {
         String realm = env.getProperty("keycloak-config." + entityName.toLowerCase() + ".realm");
         System.out.println("realm name will be -------" + realm);
         System.out.println("entity name ----------"  + entityName);
+        System.out.println("server auth url -----------" + authURL);
         List<String> roles = JSONUtil.convertJsonNodeToList(realmRoles);
         UserRepresentation newUser = createUserRepresentation(entityName, userName, email, mobile);
         List<GroupRepresentation> groupsResource = keycloak.realm(realm).groups().groups();
