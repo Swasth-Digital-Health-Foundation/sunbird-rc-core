@@ -42,14 +42,13 @@
   "_osConfig": {
     "ownershipAttributes": [
       {
-        "email": "/email",
+        "email": "/mobile",
         "mobile": "/mobile",
-        "userId": "/email"
+        "userId": "/mobile"
       }
     ],
     "uniqueIndexFields": [
-      "mobile",
-      "email"
+      "mobile"
     ],
     "systemFields": [
       "osCreatedAt",

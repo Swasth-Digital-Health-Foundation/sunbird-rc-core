@@ -65,19 +65,11 @@ public class KeycloakAdminUtil {
 
     public String createUser(String entityName, String userName, String email, String mobile, JsonNode realmRoles) throws OwnerCreationException {
         logger.info("Creating user with : " + userName);
-        System.out.println("creating user with--------- " + userName);
-        System.out.println("realm roles ==========" + realmRoles);
         Keycloak keycloak = getKeycloak(entityName);
         String realm = env.getProperty("keycloak-config." + entityName.toLowerCase() + ".realm");
-        System.out.println("realm name will be -------" + realm);
-        System.out.println("entity name ----------"  + entityName);
-        System.out.println("server auth url -----------" + authURL);
         List<String> roles = JSONUtil.convertJsonNodeToList(realmRoles);
         UserRepresentation newUser = createUserRepresentation(entityName, userName, email, mobile);
-        System.out.println("user representation  completed-----");
-        System.out.println(keycloak.realm(realm).groups().groups());
         List<GroupRepresentation> groupsResource = keycloak.realm(realm).groups().groups();
-        System.out.println("user group representation  completed-----");
         boolean groupExists = groupsResource.stream().anyMatch(group -> group.getName().equals(entityName));
         if (groupExists) {
             logger.info("Keycloak Group {} exists.", entityName);
@@ -111,9 +103,6 @@ public class KeycloakAdminUtil {
         if(keycloakCache.containsKey(entityName)){
             return keycloakCache.get(entityName);
         } else {
-            System.out.println("keycloak realm name---------- " + env.getProperty("keycloak-config." + entityName.toLowerCase() + ".realm"));
-            System.out.println("keyclaoak client id ----------" + env.getProperty("keycloak-config." + entityName.toLowerCase() + ".client-id"));
-            System.out.println("keycloak client secret --------- " + env.getProperty("keycloak-config." + entityName.toLowerCase() + ".client-secret"));
             Keycloak obj = buildKeycloak(env.getProperty("keycloak-config." + entityName.toLowerCase() + ".realm"),
                     env.getProperty("keycloak-config." + entityName.toLowerCase() + ".client-id"),
                     env.getProperty("keycloak-config." + entityName.toLowerCase() + ".client-secret"));
