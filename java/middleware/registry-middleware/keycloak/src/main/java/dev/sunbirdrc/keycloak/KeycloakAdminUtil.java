@@ -74,7 +74,10 @@ public class KeycloakAdminUtil {
         System.out.println("server auth url -----------" + authURL);
         List<String> roles = JSONUtil.convertJsonNodeToList(realmRoles);
         UserRepresentation newUser = createUserRepresentation(entityName, userName, email, mobile);
+        System.out.println("user representation  completed-----");
+        System.out.println(keycloak.realm(realm).groups().groups());
         List<GroupRepresentation> groupsResource = keycloak.realm(realm).groups().groups();
+        System.out.println("user group representation  completed-----");
         boolean groupExists = groupsResource.stream().anyMatch(group -> group.getName().equals(entityName));
         if (groupExists) {
             logger.info("Keycloak Group {} exists.", entityName);

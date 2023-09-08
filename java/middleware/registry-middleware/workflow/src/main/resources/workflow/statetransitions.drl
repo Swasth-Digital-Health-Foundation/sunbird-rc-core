@@ -40,10 +40,6 @@ rule "Create entity owner for newly added owner fields"
     when
         stateDefinition:StateContext(isOwnershipProperty() && isOwnerNewlyAdded() && isLoginEnabled());
     then
-        System.out.println("entityName: " + stateDefinition.getEntityName());
-        System.out.println("userId-----------: " + stateDefinition.getUpdated().get("userId").textValue());
-        System.out.println("mobile-----------: " + stateDefinition.getUpdated().get("mobile").textValue());
-        System.out.println("email-----------: " + stateDefinition.getUpdated().get("email").textValue());
         String owner = keycloakAdminUtil.createUser(stateDefinition.getEntityName(), stateDefinition.getUpdated().get("userId").textValue(),stateDefinition.getUpdated().get("email").textValue(), stateDefinition.getUpdated().get("mobile").textValue(), stateDefinition.getUpdated().get("roles"));
         stateDefinition.addOwner(owner);
 end
