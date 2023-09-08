@@ -59,6 +59,7 @@
     ],
     "inviteRoles": [
       "anonymous"
-    ]
+    ],
+    "roles": ["anonymous"]
   }
 }
