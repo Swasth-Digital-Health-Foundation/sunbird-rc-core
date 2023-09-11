@@ -30,11 +30,11 @@
           "type": "string",
           "format": "email"
         },
-        "insurance_id": {
-          "type": "string"
-        },
-        "payers": {
-          "type": "string"
+        "payor_details":{
+          "type":"array",
+          "items":{
+            "type":"object"
+          }
         }
       }
     }
