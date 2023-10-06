@@ -35,7 +35,7 @@
                "type":"array",
                "items":{
                   "type":"string",
-                  "enum" :["provider", "payor", "agency.tpa", "agency.regulator", "research", "member.isnp", "agency.sponsor", "HIE/HIO.HCX"]
+                  "enum" :["provider", "payor", "agency.tpa", "agency.regulator", "research", "member.isnp", "agency.sponsor", "HIE/HIO.HCX", "provider.hospital", "provider.clinic", "provider.practitioner", "provider.diagnostics", "provider.pharmacy"]
                }
             },
             "linked_registry_codes":{
