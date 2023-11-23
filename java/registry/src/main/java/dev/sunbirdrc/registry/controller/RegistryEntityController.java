@@ -119,7 +119,7 @@ public class RegistryEntityController extends AbstractController {
         ResponseParams responseParams = new ResponseParams();
         Response response = new Response(Response.API_ID.DELETE, "OK", responseParams);
         try {
-            String userId = getUserId(entityName, request);
+            String userId = "User";
             String tag = "RegistryController.delete " + entityName;
             watch.start(tag);
             registryHelper.deleteEntity(entityId,userId);
