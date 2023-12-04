@@ -18,7 +18,6 @@
       "required": [
         "mobile"
       ],
-      
       "properties": {
         "name": {
           "type": "string"
