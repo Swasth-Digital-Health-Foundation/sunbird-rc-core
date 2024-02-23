@@ -99,6 +99,9 @@
                "type":"string",
                "format":"url"
             },
+            "usage_type" : {
+               "type" : "string"
+            },
             "payment_details":{
                "type":"object",
                "required":[
